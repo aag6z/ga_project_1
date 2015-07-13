@@ -117,28 +117,65 @@ Deck.prototype = {
     return returnCard;
   }, //end of draw function
 
-  stand: function (dealerHand, playerHand){
+  stand: function (dealer, player){
+    var dealerTotal = dealer.hand[0].value + dealer.hand[1].value + dealer.hand[2].value;
+    var playerTotal = 0;
+    var winner;
 
+    for(var i = 0; i < player.hand.length; i++){
+      playerTotal += player.hand[i].value;
+    }
+
+    console.log(dealerTotal);
+    console.log(playerTotal);
+
+    if ( (playerTotal > dealerTotal) && playerTotal <= 21){
+      winner = player;
+    }
+
+
+    if (playerTotal === dealerTotal){ winner = "tie" };
+
+    if (typeof dealerTotal === "string" || typeof playerTotal === "string"){
+      winner = this.handleAces(dealer, player);
+    }
+  //  console.log(winner);
+    return winner;
+  }, //end of stand function
+
+  handleAces: function (dealer, player){
+    console.log("handling aces");
   }
 
-
 }//end of Deck object functions
+
+function Player (name, hand, icon) {
+  this.name = name;
+  this.hand = hand;
+  this.icon = icon;
+}
 
 //"main function"
 $(document).ready(function (){
   var deck = new Deck();
   deck.initDeck();
   deck.shuffleDeck();
+
   var playerHand = [];
   var dealerHand = [];
 
- for( var i = 0; i < 3; i++){
-   dealerHand.push(deck.hit());
- }
+  for( var i = 0; i < 3; i++){
+    dealerHand.push(deck.hit());
+  }
 
-for(var i = 0; i < 2; i++){
-  playerHand.push(deck.hit());
-}
+  for(var i = 0; i < 2; i++){
+    playerHand.push(deck.hit());
+  }
+
+  player = new Player("Amy", playerHand, "test");
+  dealer = new Player("Voldemort", dealerHand, "test");
+
+  console.log(deck.stand(dealer, player));
 
 //event handler for hit
 //event handler for stand

@@ -1,18 +1,24 @@
+@font-face {
+  font-family: "HP";
+  src: url('HARRYP__.TTF') format('truetype');
+}
+
 * {
   box-sizing: border-box;
 }
 
 .bjtitle h1 {
-  font-family: "Lucida Console";
+  font-family: "HP";
   color: #4D4D4D;
   font-size: 30pt;
   margin-left: 20px;
   margin-bottom: 5px;
 
+
 }
 
 .bjtitle p {
-  font-family: "Lucida Console";
+  font-family: "HP";
   color: #4D4D4D;
   font-size: 16pt;
   margin-left: 20px;
