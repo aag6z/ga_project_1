@@ -162,7 +162,7 @@ Deck.prototype = {
 
 
 
-    while(dealerTotal < 17 && this.playerHit() < 21){
+    while(dealerTotal < 17){ //&& this.playerHit() < 21){
       console.log(" in less than 17");
       console.log(dealerTotal + " dealerTotal");
       dealerTotal = this.dealerHit();
