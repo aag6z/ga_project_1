@@ -58,16 +58,16 @@ playingCard.prototype = {
 
   calcSuiteRep: function (str){
     if(str === "club"){
-      this.suiteImg = "animals_octop.gif";
+      this.suiteImg = "slyth.jpg";
     }
     if(str === "clover"){
-      this.suiteImg = "animals_octop.gif";
+      this.suiteImg = "raven.jpg";
     }
     if(str === "heart"){
-      this.suiteImg = "animals_octop.gif";
+      this.suiteImg = "gryf.jpg";
     }
     if(str === "diamond"){
-      this.suiteImg = "animals_octop.gif";
+      this.suiteImg = "huff.jpg";
     }
   } //end of calcSuitRep function
 } //end of PlayingCard object functions
@@ -76,6 +76,7 @@ function Deck (){
 
   this.cards = [];
   this.suites = ["club", "clover", "diamond", "heart"];
+  //"A",
   this.values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
 } //end of Deck object
@@ -117,54 +118,263 @@ Deck.prototype = {
     return returnCard;
   }, //end of draw function
 
-  stand: function (dealer, player){
-    var dealerTotal = dealer.hand[0].value + dealer.hand[1].value + dealer.hand[2].value;
+  dealerHit: function(){
+    dealer.hand.push(this.hit());
+    for(var i = 0; i < dealer.hand.length; i++){
+      dealer.totalScore += dealer.hand[i].value;
+    }
+
+    if(dealer.totalScore != "number"){
+      this.handleAces(true, false);
+    }
+
+    return dealer.totalScore;
+
+
+
+  },
+
+  stand: function (){
+
+    var dealerTotal = dealer.hand[0].value + dealer.hand[1].value;
+    if(typeof dealer.hand[0].value != "number" && typeof dealer.hand[1].value == "number" ){
+      dealerTotal = dealer.hand[1].value + 11;
+    }
+    if(typeof dealer.hand[1].value != "number" && typeof dealer.hand[0].value == "number" ){
+      dealerTotal = dealer.hand[0].value + 11;
+    }
+    if (typeof dealer.hand[0].value != "number" && typeof dealer.hand[1].value != "number"){
+      dealerTotal = 20;
+    }
+
+    while(dealerTotal < 17){
+      console.log(" in less than 17");
+      console.log(dealerTotal + " dealerTotal");
+      dealerTotal = this.dealerHit();
+    }
+
+
+
+    var dealerTotal = 0;
     var playerTotal = 0;
     var winner;
+    var dealerHasAces = false;
+    var playerHasAces = false;
 
     for(var i = 0; i < player.hand.length; i++){
       playerTotal += player.hand[i].value;
     }
 
-    console.log(dealerTotal);
-    console.log(playerTotal);
-
-    if ( (playerTotal > dealerTotal) && playerTotal <= 21){
-      winner = player;
+    for(var i = 0; i < dealer.hand.length; i++){
+      dealerTotal += dealer.hand[i].value;
     }
 
+//    console.log(dealer);
+//    console.log ("dealer");
+//    console.log(player);
+//    console.log("player");
+
+//    console.log("playerTot " + playerTotal);
+//    console.log("dealerTot " + dealerTotal);
+
+    if (dealerTotal === 21){ winner = dealer.name;}
+    if (playerTotal === 21){ winner = player.name;}
+    if (dealerTotal < 21 && playerTotal < 21){
+      var dealerDif = 21 - dealerTotal;
+      var playerDif = 21 - playerTotal;
+      if (playerDif < dealerDif){ winner = player.name} else { winner = dealer.name; }
+    }
 
     if (playerTotal === dealerTotal){ winner = "tie" };
+    if (playerTotal > 21 && dealerTotal > 21){ winner = "nobody"}
+    if (dealerTotal > 21 && playerTotal < 21){ winner = player.name;}
+    if (playerTotal > 21 && dealerTotal < 21){winner = dealer.name;}
 
-    if (typeof dealerTotal === "string" || typeof playerTotal === "string"){
-      winner = this.handleAces(dealer, player);
-    }
-  //  console.log(winner);
+  //  console.log(typeof dealerTotal);
+  //  console.log(typeof playerTotal);
+    player.totalScore = playerTotal;
+    dealer.totalScore = dealerTotal;
+
+    //handleAces
+    if(typeof dealerTotal === "string" || typeof playerTotal === "string"){
+      if (typeof dealerTotal === "string"){ dealerHasAces = true; }
+      if (typeof playerTotal === "string"){ playerHasAces = true; }
+      console.log ("calling Aces function");
+      winner = this.handleAces(dealerHasAces, playerHasAces);
+    }//end handleAces
+
+    //console.log(winner);
+    //console.log(" winnder from inside stand function");
+    console.log(playerTotal);
+    console.log(dealerTotal);
+
     return winner;
   }, //end of stand function
 
-  handleAces: function (dealer, player){
-    console.log("handling aces");
-  }
+  handleAces: function (dealerHasAces, playerHasAces){
+    var dealerAces = 0;
+    var playerAces = 0;
+    var playerTotal = 0;
+    var dealerTotal = 0;
+    var winner = "";
+
+    for (var i = 0; i < dealer.hand.length; i++){
+      if(typeof dealer.hand[i].value != "number"){
+        dealerAces++;
+      }
+      else {
+        dealerTotal += dealer.hand[i].value;
+      }
+    }
+
+    for (var i = 0; i < player.hand.length; i++){
+      if(typeof player.hand[i].value != "number"){
+        playerAces++;
+      }
+      else {
+        playerTotal += player.hand[i].value;
+      }
+    }
+
+
+    if(dealerHasAces){
+      if(dealerAces == 1){
+        var dealerTotal_temp1 = dealerTotal + 1;
+        var dealerTotal_temp2 = dealerTotal + 11;
+      }
+      if(dealerAces == 2){
+        var dealerTotal_temp1 = dealerTotal + 2;
+        var dealerTotal_temp2 = dealerTotal + 12;
+      }
+      if(dealerAces == 3){
+        var dealerTotal_temp1 = 3;
+        var dealerTotal_temp2 = 13;
+      }
+      if ((dealerTotal_temp1 > dealerTotal_temp2 && dealerTotal_temp1 <= 21) || (dealerTotal_temp1 <= 21 && dealerTotal_temp2 > 21)){
+        dealerTotal = dealerTotal_temp1;
+      }
+      if ((dealerTotal_temp2 >= dealerTotal_temp1 && dealerTotal_temp2 <=21) || (dealerTotal_temp2 <= 21 && dealerTotal_temp1 > 21)){
+        dealerTotal = dealerTotal_temp2;
+      }
+      if(dealerTotal_temp1 > 21 && dealerTotal_temp2 > 21){
+        dealerTotal = Math.min(dealerTotal_temp1, dealerTotal_temp2);
+      }
+
+    }
+
+    if(playerHasAces){
+      if(playerAces == 1){
+        var playerTotal_temp1 = playerTotal + 1;
+        var playerTotal_temp2 = playerTotal + 11;
+      }
+      if(playerAces == 2){
+        var playerTotal_temp1 = playerTotal + 2;
+        var playerTotal_temp2 = playerTotal + 12;
+      }
+      if(playerAces == 3){
+        var playerTotal_temp1 = 3;
+        var playerTotal_temp2 = 13;
+      }
+
+      if(playerAces == 4){
+        var playerTotal_temp1 = 4;
+        var playerTotal_temp2 = 14;
+      }
+
+      if ((playerTotal_temp1 > playerTotal_temp2 && playerTotal_temp1 <= 21) || (playerTotal_temp1 <= 21 && playerTotal_temp2 > 21)){
+        playerTotal = playerTotal_temp1
+      }
+      if ((playerTotal_temp2 >= playerTotal_temp1 && playerTotal_temp2 <=21) || (playerTotal_temp2 <= 21 && playerTotal_temp1 > 21)){
+        playerTotal = playerTotal_temp2;
+      }
+      if(playerTotal_temp1 > 21 && playerTotal_temp2 > 21){
+        playerTotal = Math.min(playerTotal_temp1, playerTotal_temp2);
+      }
+
+    }
+
+    player.totalScore = playerTotal;
+    dealer.totalScore = dealerTotal;
+
+    if (playerTotal === 21){ winner = player.name;}
+    if (dealerTotal === 21){ winner = dealer.name;}
+
+    if (dealerTotal < 21 && playerTotal < 21){
+      var dealerDif = 21 - dealerTotal;
+      var playerDif = 21 - playerTotal;
+      if (playerDif < dealerDif){ winner = player.name} else { winner = dealer.name; }
+    }
+
+    if (playerTotal === dealerTotal){ winner = "tie" };
+    if  (playerTotal > 21 && dealerTotal > 21){ winner = "nobody"}
+    if (dealerTotal > 21 && playerTotal <= 21){
+      winner = player.name;
+    }
+
+    if (playerTotal > 21 && dealerTotal <= 21){
+      winner = dealer.name;
+    }
+    console.log(winner);
+    console.log(" winner from inside the Aces function");
+    return winner;
+
+  }//end of handleAces function
 
 }//end of Deck object functions
 
-function Player (name, hand, icon) {
+function Player (name, hand) {
   this.name = name;
   this.hand = hand;
-  this.icon = icon;
+  this.totalScore = 0;
 }
+
+function playerShowCard(card){
+  var htmlStr = "<div id='playing_card'><p>" + card.valueString + "</p><img src='"+ card.suiteImg + "'><p id='bottom_val'>" + card.valueString + "</p></div>";
+  $("#player_box").append(htmlStr);
+}
+
+function dealerShowCard(card){
+  var htmlStr = "<div id='playing_card'><p>" + card.valueString + "</p><img src='"+ card.suiteImg + "'><p id='bottom_val'>" + card.valueString + "</p></div>";
+  $("#dealer_box").append(htmlStr);
+}
+
+function showWinner(winner){
+
+  var dealerHtmlStr = "<p id='dealer_score'>" + dealer.totalScore + "</p>";
+  var playerHtmlStr = "<p id='player_score'>" + player.totalScore + "</p>";
+  var winnerHtmlStr = "";
+  if(winner == "tie"){winnerHtmlStr = "<p id ='winner_banner'>" + winner + "</p>";}
+  winnerHtmlStr = "<p id ='winner_banner'>" + winner + " wins</p>";
+
+
+
+  $("#dealer_box").append(dealerHtmlStr);
+  $("#player_box").append(playerHtmlStr);
+  console.log(winnerHtmlStr);
+  $("#space").append(winnerHtmlStr);
+  $("#hit_button").off();
+  $("#stand_button").off();
+}
+
 
 //"main function"
 $(document).ready(function (){
+  var winner;
   var deck = new Deck();
   deck.initDeck();
   deck.shuffleDeck();
 
+  var ace = new playingCard("A", "heart");
+  var two = new playingCard("2", "heart");
+  var nine = new playingCard("9", "heart");
+
+//  var playerHand = [ace, ace, nine]; it's still broken for this test case!
+//  var dealerHand = [ace, two, two];
+
   var playerHand = [];
   var dealerHand = [];
 
-  for( var i = 0; i < 3; i++){
+  for( var i = 0; i < 2; i++){
     dealerHand.push(deck.hit());
   }
 
@@ -172,12 +382,33 @@ $(document).ready(function (){
     playerHand.push(deck.hit());
   }
 
-  player = new Player("Amy", playerHand, "test");
-  dealer = new Player("Voldemort", dealerHand, "test");
+  player = new Player("harry", playerHand);
+  dealer = new Player("voldemort", dealerHand);
 
-  console.log(deck.stand(dealer, player));
+  dealerShowCard(dealer.hand[0]);
+  playerShowCard(player.hand[0]);
+  playerShowCard(player.hand[1]);
 
-//event handler for hit
-//event handler for stand
+ $("#hit_button").on("click", function (){
+   var card = deck.hit()
+   player.hand.push(card);
+   playerShowCard(card);
+  });
+
+ $("#stand_button").on("click", function(){
+   $(".dummy_card").remove();
+   dealerShowCard(dealer.hand[1]);
+
+   winner = deck.stand();
+
+   if(dealer.hand.length > 2){
+     for(var i = 2; i < dealer.hand.length; i++){
+       dealerShowCard(dealer.hand[i]);
+     }
+   }
+   showWinner(winner);
+  });
+
+
 
 })

@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+body {
+}
+
+
 .bjtitle h1 {
   font-family: "HP";
   color: #4D4D4D;
@@ -52,17 +56,114 @@
 .group { zoom:1; /* For IE 6/7 */ }
 /*  GRID OF THREE  */
 .column_middle {
-  width: 68%;
-  border: 5px dashed #CCFFCC;
+  width: 98%;
+  border: 5px dashed gray;
   height: 400px;
   padding-left: 15px;
 }
 
 .column_side{
-  width: 15%;
+  width: 5%;
+}
+
+#hit_button{
+  margin-left: 82%;
+  font-family: "HP";
+  font-size: 16pt;
+  margin-right: 10px;
+}
+
+#stand_button{
+  font-family: "HP";
+  font-size: 16pt;
+}
+
+#dealer_box > #playing_card {
+  width: 120px;
+  height: 170px;
+  border: 1px solid #000;
+  display: inline-block;
+  margin: 10px;
+  float: left;
+  background-color: white;
 }
 
 
+#player_box > #playing_card {
+  width: 120px;
+  height: 170px;
+  border: 1px solid #000;
+  display: inline-block;
+  margin: 10px;
+  margin-top: 208px;
+  float: right;
+  background-color: white;
+}
+
+#playing_card > p{
+  font-family: "HP";
+  font-size: 24pt;
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+#playing_card > #bottom_val{
+  font-family: "HP";
+  font-size: 24pt;
+  margin-left: 90px;
+  margin-top: 11px;
+}
+
+#playing_card > img{
+  height: 70px;
+  width: 70px;
+  margin-left: 25px;
+}
+
+.img-circle.voldemort{
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  margin-top: 50px;
+  opacity: 0.6;
+  float: left;
+}
+
+.img-circle.harry{
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  margin-top: 237px;
+  opacity: 0.6;
+  float: right;
+}
+
+#dealer_score{
+  font-family: "HP";
+  font-size: 40pt;
+  float:left;
+  margin-left: 18px;
+  margin-top: 80px;
+  margin-right: 10px
+}
+
+#player_score{
+  font-family: "HP";
+  font-size: 40pt;
+  margin-top: 268px;
+  margin-right: 22px;
+  margin-left: 10px;
+  float: right;
+
+}
+
+#winner_banner{
+  font-family: "HP";
+  font-size: 50pt;
+  margin-left: 739px;
+  margin-bottom: 10px;
+}
 
 
 

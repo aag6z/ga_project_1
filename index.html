@@ -2,25 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>BlackJack</title>
+  <title>harry potter blackjack</title>
   <link rel="stylesheet" href="style.css" type="text/css" media="screen"/>
 </head>
 <body>
-  <div class=tictactitle>
-  <h1>blackjack</h1>
-  <p>press deal to play</p>
-</div>
+  <div class=bjtitle>
+    <h1>b l a c k j a c k</h1>
+    <p>accio - hit | petrificus totalus - stand</p>
+  </div>
 
-  <div class="space" id="space">
+  <div class="space" id="space"></div>
 
   <div class="section group">
     <div class="col column_side"></div>
 
-    <div class="col column_middle"></div>
+    <div class="col column_middle">
+      <div id="dealer_box"><div class="dummy_card" id="playing_card" style="background-color:#E0E0E0"><img style = "margin-top: 50px" src="hogwarts.jpg"></div></div><img class="img-circle voldemort" src="voldemort.jpg">
+
+
+      <div id="player_box"></div>  <img class="img-circle harry" src="harry.jpg">
+    </div>
 
     <div class="col column_side"></div>
-
   </div>
+<button type="button" id="hit_button">a c c i o</button>
+<button type="button" id="stand_button">p e t r i f i c u s  t o t a l u s</button>
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
