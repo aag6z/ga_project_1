@@ -8,6 +8,7 @@
 }
 
 body {
+
 }
 
 
@@ -57,13 +58,23 @@ body {
 /*  GRID OF THREE  */
 .column_middle {
   width: 98%;
-  border: 5px dashed gray;
+  border: 3px solid gray;
   height: 400px;
   padding-left: 15px;
 }
 
 .column_side{
   width: 5%;
+}
+
+#background_img {
+  background-image: url("castle.jpg");
+}
+
+#set_opacity {
+  background: rgba(255,255,255,0.5);
+  padding-top: 20px;
+  padding-bottom: 130px;
 }
 
 #hit_button{
@@ -83,7 +94,8 @@ body {
   height: 170px;
   border: 1px solid #000;
   display: inline-block;
-  margin: 10px;
+  margin-top: 13px;
+  margin-right: 10px;
   float: left;
   background-color: white;
 }
@@ -163,6 +175,8 @@ body {
   font-size: 50pt;
   margin-left: 739px;
   margin-bottom: 10px;
+  color: #4D4D4D;
+
 }
 
 

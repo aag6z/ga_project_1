@@ -134,6 +134,19 @@ Deck.prototype = {
 
   },
 
+  playerHit: function(){
+    for(var i = 0; i < player.hand.length; i++){
+      player.totalScore += player.hand[i].value;
+    }
+
+    if(player.totalScore != "number"){
+      this.handleAces(true, false);
+    }
+
+    return player.totalScore;
+
+  },
+
   stand: function (){
 
     var dealerTotal = dealer.hand[0].value + dealer.hand[1].value;
@@ -147,7 +160,9 @@ Deck.prototype = {
       dealerTotal = 20;
     }
 
-    while(dealerTotal < 17){
+
+
+    while(dealerTotal < 17 && this.playerHit() < 21){
       console.log(" in less than 17");
       console.log(dealerTotal + " dealerTotal");
       dealerTotal = this.dealerHit();
@@ -338,13 +353,14 @@ function dealerShowCard(card){
   $("#dealer_box").append(htmlStr);
 }
 
-function showWinner(winner){
+function showWinner(winner, bust){
+  bust = bust +  " - ";
 
   var dealerHtmlStr = "<p id='dealer_score'>" + dealer.totalScore + "</p>";
   var playerHtmlStr = "<p id='player_score'>" + player.totalScore + "</p>";
   var winnerHtmlStr = "";
-  if(winner == "tie"){winnerHtmlStr = "<p id ='winner_banner'>" + winner + "</p>";}
-  winnerHtmlStr = "<p id ='winner_banner'>" + winner + " wins</p>";
+  if(winner == "tie"){winnerHtmlStr = "<p id ='winner_banner'>" + bust + winner + " - " + "</p>";}
+  winnerHtmlStr = "<p id ='winner_banner'>" + bust + winner + " wins - " + "</p>";
 
 
 
@@ -393,6 +409,20 @@ $(document).ready(function (){
    var card = deck.hit()
    player.hand.push(card);
    playerShowCard(card);
+   if(deck.playerHit() > 21){
+     $(".dummy_card").remove();
+     dealerShowCard(dealer.hand[1]);
+
+     winner = deck.stand();
+
+     if(dealer.hand.length > 2){
+       for(var i = 2; i < dealer.hand.length; i++){
+         dealerShowCard(dealer.hand[i]);
+       }
+     }
+     showWinner(winner, "bust");
+
+   }
   });
 
  $("#stand_button").on("click", function(){
@@ -406,7 +436,7 @@ $(document).ready(function (){
        dealerShowCard(dealer.hand[i]);
      }
    }
-   showWinner(winner);
+   showWinner(winner, "");
   });
 
 
