@@ -265,6 +265,10 @@ Deck.prototype = {
         var dealerTotal_temp1 = 3;
         var dealerTotal_temp2 = 13;
       }
+      if(dealerAces == 4){
+        var dealerTotal_temp1 = 4;
+        var dealerTotal_temp2 = 14;
+      }
       if ((dealerTotal_temp1 > dealerTotal_temp2 && dealerTotal_temp1 <= 21) || (dealerTotal_temp1 <= 21 && dealerTotal_temp2 > 21)){
         dealerTotal = dealerTotal_temp1;
       }
@@ -439,6 +443,9 @@ $(document).ready(function (){
    showWinner(winner, "");
   });
 
+$("#new_game").on("click", function(){
+  location.reload();
+});
 
 
 })

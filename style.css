@@ -78,13 +78,19 @@ body {
 }
 
 #hit_button{
-  margin-left: 82%;
+  margin-left: 75%;
   font-family: "HP";
   font-size: 16pt;
   margin-right: 10px;
 }
 
 #stand_button{
+  font-family: "HP";
+  font-size: 16pt;
+  margin-right: 10px;
+}
+
+#new_game{
   font-family: "HP";
   font-size: 16pt;
 }
