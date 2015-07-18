@@ -1,5 +1,5 @@
 function playingCard (valueString, suite){
-
+// this seems like a constructor function, by convention constructor functions are capitalized
   this.valueString = valueString;
   this.suite = suite;
   if (this.suite === "club" || this.suite === "clover"){ this.color = "black";} else { (this.color = "red"); }
@@ -8,7 +8,8 @@ function playingCard (valueString, suite){
 
   this.calcValue(this.valueString);
   this.calcSuiteRep(this.suite);
-
+// think we talked about this during one on one, but basically these are invoking these functions, creating them in memory and then instantly being garbage collected
+// think you can just set an equality for lines 6 to line 9
 } //end of playingCard object
 
 playingCard.prototype = {
@@ -82,6 +83,10 @@ function Deck (){
 } //end of Deck object
 
 Deck.prototype = {
+  // so I see that a large amount of the functionality in this program is contained within this deck constructor
+  // i wanted to pose a question to you. Is it still object oriented programming if we create a gigantic object that maintains the functionality of most everything? Essentially you abstracted 80 % of the code base in the global namespace into this one big object
+  // This goes back to concept of Separation of Concerns with regard to OOP. I think the Deck object should only contain whats happening to the deck, ie initializing, shuffling, drawing a card from it
+  // The rest of the functionality should go into the Player constructor.
   initDeck: function () {
     for (var i = 0; i < this.suites.length; i++){
       for(var j = 0; j<this.values.length; j++){
@@ -251,7 +256,7 @@ Deck.prototype = {
       }
     }
 
-
+// i really like your ace logic. seems theres some repetition happening with dealer aces and player aces, definitely some potential to refactor here
     if(dealerHasAces){
       if(dealerAces == 1){
         var dealerTotal_temp1 = dealerTotal + 1;
@@ -269,6 +274,7 @@ Deck.prototype = {
         var dealerTotal_temp1 = 4;
         var dealerTotal_temp2 = 14;
       }
+      // I like these conditionals that check against the different values of aces, but i feel like theres a way to aggregate the data so that you dont have to do this sort of thing in 7 conditional statements
       if ((dealerTotal_temp1 > dealerTotal_temp2 && dealerTotal_temp1 <= 21) || (dealerTotal_temp1 <= 21 && dealerTotal_temp2 > 21)){
         dealerTotal = dealerTotal_temp1;
       }
@@ -341,12 +347,14 @@ Deck.prototype = {
 
 }//end of Deck object functions
 
+// I think alot of the functionality in the Deck constructor should go here, and additionally this constructor's functionality can just accept a Deck object as an argument and use it as you need
 function Player (name, hand) {
   this.name = name;
   this.hand = hand;
   this.totalScore = 0;
 }
 
+// below looks like alot of perfect material for a view object in which we can pass in a player object or a deck object. (Might be two separate view constructors)
 function playerShowCard(card){
   var htmlStr = "<div id='playing_card'><p>" + card.valueString + "</p><img src='"+ card.suiteImg + "'><p id='bottom_val'>" + card.valueString + "</p></div>";
   $("#player_box").append(htmlStr);
